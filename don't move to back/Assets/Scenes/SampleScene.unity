@@ -427,6 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 5
   _jumpSpeed: 10
+  _hp: 5
 --- !u!114 &510962829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,6 +663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modeSpeed: 5
+  _attackPower: 1
 --- !u!50 &646066509
 Rigidbody2D:
   serializedVersion: 4

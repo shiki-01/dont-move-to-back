@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private float _moveSpeed;
     [SerializeField, Header("ƒWƒƒƒ“ƒv‘¬“x")]
     private float _jumpSpeed;
+    [SerializeField, Header("‘Ì—Í")]
+    private int _hp;
 
     private Vector2 _inputDirection;
     private Rigidbody2D _rigid;
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         _Move();
+        Debug.Log(_hp);
     }
 
     private void _Move()
@@ -54,6 +57,10 @@ public class Player : MonoBehaviour
         {
             Destroy(enemy);
         }
+        else
+        {
+            enemy.GetComponent<Enemy>().PlayerDamage(this);
+        }
     }
 
     public void _OnMove(InputAction.CallbackContext context)
@@ -67,5 +74,10 @@ public class Player : MonoBehaviour
 
         _rigid.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
         _bJump = true;
+    }
+
+    public void Damage(int  damage)
+    {
+        _hp = Mathf.Max(_hp - damage, 0);
     }
 }

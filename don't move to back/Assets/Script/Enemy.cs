@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField, Header("ˆÚ“®‘¬“x")]
     private float _modeSpeed;
+    [SerializeField, Header("UŒ‚—Í")]
+    private int _attackPower;
 
     private Rigidbody2D _rigid;
 
@@ -25,5 +27,10 @@ public class Enemy : MonoBehaviour
     private void _Move()
     {
         _rigid.velocity = new Vector2(Vector2.left.x * _modeSpeed, _rigid.velocity.y);
+    }
+
+    public void PlayerDamage(Player player)
+    {
+        player.Damage(_attackPower);
     }
 }
