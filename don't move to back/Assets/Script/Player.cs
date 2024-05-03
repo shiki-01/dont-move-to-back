@@ -32,6 +32,14 @@ public class Player : MonoBehaviour
         _rigid.velocity = new Vector2(_inputDirection.x * _moveSpeed, _rigid.velocity.y);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            _bJump = false;
+        }
+    }
+
     public void _OnMove(InputAction.CallbackContext context)
     {
         _inputDirection = context.ReadValue<Vector2>();
