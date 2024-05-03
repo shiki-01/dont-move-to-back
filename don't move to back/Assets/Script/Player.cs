@@ -35,12 +35,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         _Move();
-        Debug.Log(_hp);
+        _HiFloor();
         _LookMoveDirec();
     }
 
     private void _Move()
     {
+        if (_bJump) return;
         _rigid.velocity = new Vector2(_inputDirection.x * _moveSpeed, _rigid.velocity.y);
         _anim.SetBool("Walk", _inputDirection.x != 0.0f);
     }
@@ -59,11 +60,11 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
-        {
-            _bJump = false;
-            _anim.SetBool("Jump", _bJump);
-        }
+        //if (collision.gameObject.tag == "Floor")
+        //{
+        //    _bJump = false;
+        //    _anim.SetBool("Jump", _bJump);
+        //}
 
         if (collision.gameObject.tag == "Enemy")
         {
@@ -71,6 +72,26 @@ public class Player : MonoBehaviour
             gameObject.layer = LayerMask.NameToLayer("PlayerDamage");
         }
 
+    }
+
+    private void _HiFloor()
+    {
+        int layerMask = LayerMask.GetMask("Floor");
+        Vector3 rayPos = transform.position - new Vector3(0.0f, transform.lossyScale.y / 2.0f);
+        Vector3 raySize = new Vector3(transform.lossyScale.x - 0.1f, 0.1f);
+        RaycastHit2D rayHit = Physics2D.BoxCast(rayPos, raySize, 0.0f, Vector2.zero, 0.0f, layerMask);
+
+        if (rayHit.transform == null)
+        {
+            _bJump = true;
+            _anim.SetBool("Jump", _bJump);
+            return;
+        }
+        if (rayHit.transform.tag == "Floor" && _bJump)
+        {
+            _bJump = false;
+            _anim.SetBool("Jump", _bJump);
+        }
     }
 
     private void _HitEnemy(GameObject enemy)
@@ -122,8 +143,6 @@ public class Player : MonoBehaviour
         if (!context.performed || _bJump) return;
 
         _rigid.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
-        _bJump = true;
-        _anim.SetBool("Jump", true);
     }
 
     public void Damage(int  damage)
