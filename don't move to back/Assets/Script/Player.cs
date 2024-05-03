@@ -14,12 +14,14 @@ public class Player : MonoBehaviour
 
     private Vector2 _inputDirection;
     private Rigidbody2D _rigid;
+    private Animator _anim;
     private bool _bJump;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
+        _anim = GetComponent<Animator>();
         _bJump = false;
     }
 
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
     private void _Move()
     {
         _rigid.velocity = new Vector2(_inputDirection.x * _moveSpeed, _rigid.velocity.y);
+        _anim.SetBool("Walk", _inputDirection.x != 0.0f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
