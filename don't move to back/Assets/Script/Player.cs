@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             _bJump = false;
+            _anim.SetBool("Jump", _bJump);
         }
 
         if (collision.gameObject.tag == "Enemy")
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
 
         _rigid.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
         _bJump = true;
+        _anim.SetBool("Jump", true);
     }
 
     public void Damage(int  damage)
