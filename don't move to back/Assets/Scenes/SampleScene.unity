@@ -551,7 +551,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 5
   _jumpSpeed: 15
-  _hp: 1
+  _hp: 5
+  _damageTime: 0
+  _flashTime: 0
 --- !u!114 &510962829
 MonoBehaviour:
   m_ObjectHideFlags: 0

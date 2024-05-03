@@ -11,10 +11,15 @@ public class Player : MonoBehaviour
     private float _jumpSpeed;
     [SerializeField, Header("‘Ì—Í")]
     private int _hp;
+    [SerializeField, Header("–³“GŽžŠÔ")]
+    private float _damageTime;
+    [SerializeField, Header("“_–ÅŽžŠÔ")]
+    private float _flashTime;
 
     private Vector2 _inputDirection;
     private Rigidbody2D _rigid;
     private Animator _anim;
+    private SpriteRenderer _spriteRenderer;
     private bool _bJump;
 
     // Start is called before the first frame update
@@ -22,6 +27,7 @@ public class Player : MonoBehaviour
     {
         _rigid = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _bJump = false;
     }
 
@@ -30,12 +36,25 @@ public class Player : MonoBehaviour
     {
         _Move();
         Debug.Log(_hp);
+        _LookMoveDirec();
     }
 
     private void _Move()
     {
         _rigid.velocity = new Vector2(_inputDirection.x * _moveSpeed, _rigid.velocity.y);
         _anim.SetBool("Walk", _inputDirection.x != 0.0f);
+    }
+
+    private void _LookMoveDirec()
+    {
+        if (_inputDirection.x > 0.0f)
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+        else if (_inputDirection.x < 0.0f)
+        {
+            transform.eulerAngles = new Vector3(0.0f, 180.0f, 0.0f);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -49,6 +68,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             _HitEnemy(collision.gameObject);
+            gameObject.layer = LayerMask.NameToLayer("PlayerDamage");
         }
 
     }
@@ -65,7 +85,23 @@ public class Player : MonoBehaviour
         else
         {
             enemy.GetComponent<Enemy>().PlayerDamage(this);
+            StartCoroutine(_Damage());
         }
+    }
+
+    IEnumerator _Damage()
+    {
+        Color color = _spriteRenderer.color;
+        for (int i =  0; i < _damageTime; i++)
+        {
+            yield return new WaitForSeconds(_flashTime);
+            _spriteRenderer.color = new Color(color.r, color.g, color.b, 0.0f);
+
+            yield return new WaitForSeconds(_flashTime);
+            _spriteRenderer.color= new Color(color.r, color.g, color.b, 1.0f);
+        }
+        _spriteRenderer.color = color;
+        gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
     private void _Dead()
