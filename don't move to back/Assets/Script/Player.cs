@@ -38,6 +38,22 @@ public class Player : MonoBehaviour
         {
             _bJump = false;
         }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            _HitEnemy(collision.gameObject);
+        }
+
+    }
+
+    private void _HitEnemy(GameObject enemy)
+    {
+        float halfScaleY = transform.localScale.y / 2.0f;
+        float enemyHalfSaleY = enemy.transform.localScale.y / 2.0f;
+        if (transform.position.y - (halfScaleY - 0.1f) >= enemy.transform.position.y + (enemyHalfSaleY - 0.1f))
+        {
+            Destroy(enemy);
+        }
     }
 
     public void _OnMove(InputAction.CallbackContext context)
