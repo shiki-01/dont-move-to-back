@@ -81,4 +81,9 @@ public class Player : MonoBehaviour
     {
         _hp = Mathf.Max(_hp - damage, 0);
     }
+
+    public int GetHP()
+    {
+        return _hp;
+    }
 }
