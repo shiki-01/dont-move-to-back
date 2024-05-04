@@ -6,9 +6,11 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField, Header("移動速度")]
-    private float _moveSpeed;
+    public float _moveSpeed;
     [SerializeField, Header("ジャンプ速度")]
-    private float _jumpSpeed;
+    public float _jumpSpeed;
+    [SerializeField, Header("最大体力")]
+    public int _maxHp = 8;
     [SerializeField, Header("体力")]
     private int _hp;
     [SerializeField, Header("無敵時間")]
@@ -56,6 +58,21 @@ public class Player : MonoBehaviour
         {
             _rigid.drag = 0.0f;
         }
+    }
+
+    public void IncreaseSpeed(float speed)
+    {
+        _moveSpeed += speed;
+    }
+
+    public void IncreaseJump(float speed)
+    {
+        _jumpSpeed += speed;
+    }
+
+    public void IncreaseHP(int hp)
+    {
+        _hp = Mathf.Min(_hp + hp, _maxHp);
     }
 
     private void _LookMoveDirec()

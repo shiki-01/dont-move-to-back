@@ -10,8 +10,8 @@ public class PlayerHP : MonoBehaviour
 
     private Player _player;
     private int _beforeHP;
+    private List<GameObject> _hpIcons = new List<GameObject>();
 
-    // Start is called before the first frame update
     void Start()
     {
         _player = FindObjectOfType<Player>();
@@ -21,15 +21,15 @@ public class PlayerHP : MonoBehaviour
 
     private void _CreateHPIcon()
     {
-        for (int i = 0; i < _player.GetHP(); i++)
+        for (int i = 0; i < _player._maxHp; i++)
         {
             GameObject _playerHPObj = Instantiate(_playerIcon);
             _playerHPObj.transform.SetParent(transform, false);
+            _hpIcons.Add(_playerHPObj);
+            _playerHPObj.SetActive(i < _player.GetHP());
         }
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         _ShowHPIcon();
@@ -39,11 +39,12 @@ public class PlayerHP : MonoBehaviour
     {
         if (_beforeHP == _player.GetHP()) return;
 
-        Image[] icons = transform.GetComponentsInChildren<Image>();
-        for (int i = 0; i < icons.Length; i++)
+        for (int i = 0; i < _hpIcons.Count; i++)
         {
-            icons[i].gameObject.SetActive(i < _player.GetHP());
+            _hpIcons[i].SetActive(i < _player.GetHP());
         }
         _beforeHP = _player.GetHP();
     }
 }
+
+
