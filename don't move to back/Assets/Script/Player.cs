@@ -41,9 +41,17 @@ public class Player : MonoBehaviour
 
     private void _Move()
     {
-        if (_bJump) return;
         _rigid.velocity = new Vector2(_inputDirection.x * _moveSpeed, _rigid.velocity.y);
         _anim.SetBool("Walk", _inputDirection.x != 0.0f);
+
+        if (_bJump)
+        {
+            _rigid.drag = 1.0f;
+        }
+        else
+        {
+            _rigid.drag = 0.0f;
+        }
     }
 
     private void _LookMoveDirec()
@@ -60,11 +68,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if (collision.gameObject.tag == "Floor")
-        //{
-        //    _bJump = false;
-        //    _anim.SetBool("Jump", _bJump);
-        //}
 
         if (collision.gameObject.tag == "Enemy")
         {
