@@ -31,11 +31,18 @@ public class CameraManager : MonoBehaviour
 
     private void _ShakeCheck()
     {
-        if (_currentPlayerHP < _player.GetHP())
+        if (_currentPlayerHP != _player.GetHP())
         {
-            _currentPlayerHP = _player.GetHP();
-            _shakeCount = 0.0f;
-            StartCoroutine(_Shake());
+            if ( _currentPlayerHP > _player.GetHP())
+            {
+                _currentPlayerHP = _player.GetHP();
+                _shakeCount = 0.0f;
+                StartCoroutine(_Shake());
+            }
+            else
+            {
+                _currentPlayerHP = _player.GetHP();
+            }
         }
     }
 
