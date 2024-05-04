@@ -6,6 +6,8 @@ public class MainManager : MonoBehaviour
 {
     [SerializeField, Header("ゲームオーバーUI")]
     private GameObject _gameOverUi;
+    [SerializeField, Header("ゲームクリアUI")]
+    private GameObject _gameClearUIi;
 
     private GameObject _player;
 
@@ -26,5 +28,10 @@ public class MainManager : MonoBehaviour
         if (_player != null) return;
 
         _gameOverUi.SetActive(true);
+    }
+
+    public void ShowGameClearUI()
+    {
+        _gameClearUIi.SetActive(true);
     }
 }

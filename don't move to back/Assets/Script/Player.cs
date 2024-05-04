@@ -72,7 +72,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             _HitEnemy(collision.gameObject);
-            gameObject.layer = LayerMask.NameToLayer("PlayerDamage");
+        }
+        else if (collision.gameObject.tag == "Goal")
+        {
+            FindObjectOfType<MainManager>().ShowGameClearUI();
+            enabled = false;
+            GetComponent<PlayerInput>().enabled = false;
         }
 
     }
@@ -109,6 +114,7 @@ public class Player : MonoBehaviour
         else
         {
             enemy.GetComponent<Enemy>().PlayerDamage(this);
+            gameObject.layer = LayerMask.NameToLayer("PlayerDamage");
             StartCoroutine(_Damage());
         }
     }
