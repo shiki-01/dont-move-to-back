@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     private float _damageTime;
     [SerializeField, Header("点滅時間")]
     private float _flashTime;
+    [SerializeField, Header("ジャンプSE")]
+    private GameObject _jumpSE;
+    [SerializeField, Header("ダメージSE")]
+    private GameObject _damageSE;
 
     private Vector2 _inputDirection;
     private Rigidbody2D _rigid;
@@ -110,6 +114,7 @@ public class Player : MonoBehaviour
         {
             Destroy(enemy);
             _rigid.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
+            Instantiate(_jumpSE);
         }
         else
         {
@@ -145,8 +150,8 @@ public class Player : MonoBehaviour
     private void OnBecameInvisible()
     {
         Camera camera = Camera.main;
-        
-        if (camera.name == "Main Camera" && camera.transform.position.y > transform.position.y)
+
+        if (camera != null && camera.name == "Main Camera" && camera.transform.position.y > transform.position.y)
         {
             Destroy(gameObject);
         }
@@ -162,11 +167,13 @@ public class Player : MonoBehaviour
         if (!context.performed || _bJump) return;
 
         _rigid.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
+        Instantiate(_jumpSE);
     }
 
     public void Damage(int  damage)
     {
         _hp = Mathf.Max(_hp - damage, 0);
+        Instantiate(_damageSE);
         _Dead();
     }
 

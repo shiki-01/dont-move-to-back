@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
+    [SerializeField, Header("Œˆ’è‰¹")]
+    private GameObject _submitSE;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class TitleManager : MonoBehaviour
         if (!context.performed)
         {
             SceneManager.LoadScene("SampleScene");
+            Instantiate(_submitSE);
         }
     }
 }

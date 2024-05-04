@@ -24,9 +24,10 @@ public class PlayerHP : MonoBehaviour
         for (int i = 0; i < _player.GetHP(); i++)
         {
             GameObject _playerHPObj = Instantiate(_playerIcon);
-            _playerHPObj.transform.parent = transform;
+            _playerHPObj.transform.SetParent(transform, false);
         }
     }
+
 
     // Update is called once per frame
     void Update()
