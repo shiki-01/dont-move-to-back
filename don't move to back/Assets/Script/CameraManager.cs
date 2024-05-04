@@ -59,6 +59,8 @@ public class CameraManager : MonoBehaviour
 
     private void _FollowPlayer()
     {
+        if (_player == null) return;
+
         float x = _player.transform.position.x;
         float y = _player.transform.position.y;
         x = Mathf.Clamp(x, _initPos.x, Mathf.Infinity);
